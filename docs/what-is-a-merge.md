@@ -66,7 +66,7 @@ On a pull request, there's a green button that says **"Merge pull request"**.
 
 Before you see it, GitHub runs some automatic checks. When those pass, the button turns green — that's your signal that it's safe to merge.
 
-![screenshot of green merge pull request button](/images/Green-merge-pull-request.png)
+![screenshot of green merge pull request button](/images/green-merge-pull-request.png)
 
 ---
 
