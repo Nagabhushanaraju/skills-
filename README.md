@@ -1,75 +1,100 @@
-<header>
+# 👋 Welcome — You Don't Need to Be a Tech Person to Understand This!
 
-<!--
-  <<< Author notes: Course header >>>
-  Include a 1280×640 image, course title in sentence case, and a concise description in emphasis.
-  In your repository settings: enable template repository, add your 1280×640 social image, auto delete head branches.
-  Add your open source license, GitHub uses MIT license.
--->
-
-# Introduction to GitHub
-
-_Get started using GitHub in less than an hour._
-
-</header>
-
-<!--
-  <<< Author notes: Step 1 >>>
-  Choose 3-5 steps for your course.
-  The first step is always the hardest, so pick something easy!
-  Link to docs.github.com for further explanations.
-  Encourage users to open new tabs for steps!
--->
-
-## Step 1: Create a branch
-
-_Welcome to "Introduction to GitHub"! :wave:_
-
-**What is GitHub?**: GitHub is a collaboration platform that uses _[Git](https://docs.github.com/get-started/quickstart/github-glossary#git)_ for versioning. GitHub is a popular place to share and contribute to [open-source](https://docs.github.com/get-started/quickstart/github-glossary#open-source) software.
-<br>:tv: [Video: What is GitHub?](https://www.youtube.com/watch?v=pBy1zgt0XPc)
-
-**What is a repository?**: A _[repository](https://docs.github.com/get-started/quickstart/github-glossary#repository)_ is a project containing files and folders. A repository tracks versions of files and folders. For more information, see "[About repositories](https://docs.github.com/en/repositories/creating-and-managing-repositories/about-repositories)" from GitHub Docs.
-
-**What is a branch?**: A _[branch](https://docs.github.com/en/get-started/quickstart/github-glossary#branch)_ is a parallel version of your repository. By default, your repository has one branch named `main` and it is considered to be the definitive branch. Creating additional branches allows you to copy the `main` branch of your repository and safely make any changes without disrupting the main project. Many people use branches to work on specific features without affecting any other parts of the project.
-
-Branches allow you to separate your work from the `main` branch. In other words, everyone's work is safe while you contribute. For more information, see "[About branches](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-branches)".
-
-**What is a profile README?**: A _[profile README](https://docs.github.com/account-and-profile/setting-up-and-managing-your-github-profile/customizing-your-profile/managing-your-profile-readme)_ is essentially an "About me" section on your GitHub profile where you can share information about yourself with the community on GitHub.com. GitHub shows your profile README at the top of your profile page. For more information, see "[Managing your profile README](https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-profile/customizing-your-profile/managing-your-profile-readme)".
-
-![profile-readme-example](/images/profile-readme-example.png)
-
-### :keyboard: Activity: Your first branch
-
-1. Open a new browser tab and navigate to your newly made repository. Then, work on the steps in your second tab while you read the instructions in this tab.
-2. Navigate to the **< > Code** tab in the header menu of your repository.
-
-   ![code-tab](/images/code-tab.png)
-
-3. Click on the **main** branch drop-down.
-
-   ![main-branch-dropdown](/images/main-branch-dropdown.png)
-
-4. In the field, name your branch `my-first-branch`. In this case, the name must be `my-first-branch` to trigger the course workflow.
-5. Click **Create branch: my-first-branch** to create your branch.
-
-   ![create-branch-button](/images/create-branch-button.png)
-
-   The branch will automatically switch to the one you have just created.
-   The **main** branch drop-down bar will reflect your new branch and display the new branch name.
-
-6. Wait about 20 seconds then refresh this page (the one you're following instructions from). [GitHub Actions](https://docs.github.com/en/actions) will automatically update to the next step.
-
-<footer>
-
-<!--
-  <<< Author notes: Footer >>>
-  Add a link to get support, GitHub status page, code of conduct, license link.
--->
+> **This repo is a hands-on playground for learning GitHub from absolute zero.**
+> No coding experience needed. No jargon. Just plain English, step-by-step.
 
 ---
 
-Get help: [Post in our discussion board](https://github.com/orgs/skills/discussions/categories/introduction-to-github) &bull; [Review the GitHub status page](https://www.githubstatus.com/)
+## 🗺️ Table of Contents
+
+| # | What You'll Find | Where |
+|---|---|---|
+| 1 | What is this whole thing? | [Right below ⬇️](#-what-is-this-repo) |
+| 2 | Key words explained simply | [GLOSSARY.md](./GLOSSARY.md) |
+| 3 | How this repo is structured | [HOW-THIS-REPO-WORKS.md](./HOW-THIS-REPO-WORKS.md) |
+| 4 | Deep-dive guides (one concept per file) | [docs/ folder](./docs/) |
+| 5 | Want to contribute or try things? | [CONTRIBUTING.md](./CONTRIBUTING.md) |
+
+---
+
+## 🤔 What Is This Repo?
+
+Think of this repository (repo for short) like a **shared Google Drive folder** — but smarter.
+
+- Every change you make is **saved with a history**, so you can always go back.
+- Multiple people can **work on different things at the same time** without stepping on each other.
+- When someone finishes their part, they **propose to merge** it into the main version.
+
+This repo teaches you exactly how all of that works — by doing it yourself, step by step.
+
+---
+
+## 🧭 The Big Picture — What You'll Learn
+
+```
+GitHub is like a city.
+  🏛️  The Repository  = The building (holds everything)
+  🌿  A Branch        = A room where you work privately
+  📸  A Commit        = A photo you take of your work to save it
+  📬  A Pull Request  = A note saying "hey, can my work go into the main room?"
+  🔀  A Merge         = Approving that note and combining the work
+```
+
+**Read the full explanation for each concept in the [`docs/` folder](./docs/).**
+
+---
+
+## 🚀 Step 1: Create a Branch
+
+_Welcome! Let's start your first hands-on activity._ 👋
+
+### Before you click anything — what IS a branch?
+
+Imagine you have a Word document called `essay.docx`.
+You want to try a different introduction, but you don't want to ruin what you already have.
+
+So you make a copy called `essay-new-intro.docx` and edit that instead.
+If you like it → you replace the original. If not → you just delete the copy.
+
+**A branch is exactly that — a safe copy where you can experiment.**
+
+> 📖 Want the full story? → [docs/what-is-a-branch.md](./docs/what-is-a-branch.md)
+> 📖 What's a repository? → [docs/what-is-github.md](./docs/what-is-github.md)
+> 🎥 Video explanation → [What is GitHub? (YouTube)](https://www.youtube.com/watch?v=pBy1zgt0XPc)
+
+---
+
+### 🖱️ Activity: Create Your First Branch
+
+> 💡 **Tip:** Open a second browser tab for the steps below while keeping these instructions open in this tab.
+
+1. Go to the **`< > Code`** tab at the top of this page.
+
+   ![code-tab](/images/code-tab.png)
+
+2. Click the **`main`** branch dropdown (top-left area of the file list).
+
+   ![main-branch-dropdown](/images/main-branch-dropdown.png)
+
+3. In the text field that appears, type exactly: **`my-first-branch`**
+   _(The name must be exactly this — the system is watching for it!)_
+
+4. Click **"Create branch: my-first-branch"**.
+
+   ![create-branch-button](/images/create-branch-button.png)
+
+   ✅ You're now inside your new branch. Notice the dropdown now shows `my-first-branch`.
+
+5. **Wait about 20 seconds**, then refresh this page. The page will automatically update to Step 2.
+
+---
+
+## 📌 Stuck? Need Help?
+
+- 💬 [Ask in the GitHub Skills discussion board](https://github.com/orgs/skills/discussions/categories/introduction-to-github)
+- 📊 [Check if GitHub is having issues](https://www.githubstatus.com/)
+- 📚 [Browse all GitHub docs](https://docs.github.com/en/get-started)
+
+---
 
 &copy; 2024 GitHub &bull; [Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/code_of_conduct.md) &bull; [MIT License](https://gh.io/mit)
-
-</footer>
