@@ -1,60 +1,74 @@
+# ──────────────────────────────────────────────────────────────────
+# WORKFLOW: Step 2 — Commit a File
+# ──────────────────────────────────────────────────────────────────
+# What this does (in plain English):
+#   This workflow watches the "my-first-branch" branch.
+#   When the learner pushes a commit to that branch,
+#   and the learner is on Step 2,
+#   it automatically advances the course to Step 3.
+#
+# A "push" = uploading your saved changes to GitHub.
+# When you commit a file in the browser, GitHub pushes it automatically.
+# ──────────────────────────────────────────────────────────────────
+
 name: Step 2, Commit a file
 
-# This step listens for the learner to commit a file to branch `my-first-branch`.
-# This workflow updates from step 2 to step 3.
-
-# This action will run every time there's a push to `my-first-branch`.
-# Reference: https://docs.github.com/en/actions/learn-github-actions/events-that-trigger-workflows
+# ── TRIGGERS ───────────────────────────────────────────────────────
 on:
-  workflow_dispatch:
+  workflow_dispatch:   # Can be triggered manually from the Actions tab
+
   push:
     branches:
       - my-first-branch
+    # Only watch for pushes to "my-first-branch", not "main" or others
+    # This way the workflow only fires when the learner does something
+    # on their own branch
 
-# Reference: https://docs.github.com/en/actions/security-guides/automatic-token-authentication
+# ── PERMISSIONS ────────────────────────────────────────────────────
 permissions:
-  # Need `contents: read` to checkout the repository.
-  # Need `contents: write` to update the step metadata.
-  contents: write
+  contents: write   # Allowed to update the step counter and README
 
+# ── JOBS ───────────────────────────────────────────────────────────
 jobs:
-  # Get the current step to only run the main job when the learner is on the same step.
+
+  # ── JOB 1: Read the current step number ────────────────────────
   get_current_step:
     name: Check current step number
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+
       - id: get_step
         run: |
           echo "current_step=$(cat ./.github/steps/-step.txt)" >> $GITHUB_OUTPUT
+        # The file .github/steps/-step.txt contains "2" while we're on step 2
+
     outputs:
       current_step: ${{ steps.get_step.outputs.current_step }}
 
+  # ── JOB 2: Advance to Step 3 if conditions are met ─────────────
   on_commit_a_file:
     name: On commit a file
     needs: get_current_step
 
-    # We will only run this action when:
-    # 1. This repository isn't the template repository.
-    # 2. The step is currently 2.
-    # Reference: https://docs.github.com/en/actions/learn-github-actions/contexts
-    # Reference: https://docs.github.com/en/actions/learn-github-actions/expressions
+    # Run ONLY when ALL of the following are true:
     if: >-
       ${{ !github.event.repository.is_template
           && needs.get_current_step.outputs.current_step == 2 }}
+    # Condition 1: Not the template repo
+    # Condition 2: Currently on Step 2
+    # (The branch name check is already handled by the "on: push: branches:" trigger above)
 
-    # We'll run Ubuntu for performance instead of Mac or Windows.
     runs-on: ubuntu-latest
 
     steps:
-      # We'll need to check out the repository so that we can edit the README.
       - name: Checkout
         uses: actions/checkout@v6
         with:
-          fetch-depth: 0 # Let's get all the branches.
+          fetch-depth: 0   # Get full history so the update tool can work
 
-      # In README.md, switch step 2 for step 3.
+      # Swap Step 2 content → Step 3 content in the README
       - name: Update to step 3
         uses: skills/action-update-step@v2
         with:
@@ -62,3 +76,4 @@ jobs:
           from_step: 2
           to_step: 3
           branch_name: my-first-branch
+
