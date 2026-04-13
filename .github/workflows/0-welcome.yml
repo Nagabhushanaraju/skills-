@@ -1,64 +1,108 @@
+# ──────────────────────────────────────────────────────────────────
+# WORKFLOW: Step 0 — Welcome
+# ──────────────────────────────────────────────────────────────────
+# What this does (in plain English):
+#   When someone pushes a commit to the "main" branch,
+#   this workflow wakes up and checks if the learner is on Step 0.
+#   If yes, it automatically updates the README to show Step 1.
+#
+# Think of it like an automatic page-turner in an interactive book.
+# ──────────────────────────────────────────────────────────────────
+
 name: Step 0, Welcome
 
-# This step triggers after the learner creates a new repository from the template.
-# This workflow updates from step 0 to step 1.
-
-# This will run every time we create push a commit to `main`.
-# Reference: https://docs.github.com/en/actions/learn-github-actions/events-that-trigger-workflows
+# ── TRIGGERS ───────────────────────────────────────────────────────
+# "on:" means "run this workflow when any of the following happen:"
 on:
+  # "workflow_dispatch" = you can also trigger this manually from
+  # the GitHub Actions tab (useful for testing or fixing stuck steps)
   workflow_dispatch:
+
+  # "push" = run this every time someone pushes (uploads) a commit
   push:
     branches:
-      - main
+      - main  # Only watch the "main" branch, not other branches
 
-# Reference: https://docs.github.com/en/actions/security-guides/automatic-token-authentication
+# ── PERMISSIONS ────────────────────────────────────────────────────
+# GitHub Actions runs in a sandboxed environment.
+# We have to explicitly say what it's allowed to do.
 permissions:
-  # Need `contents: read` to checkout the repository.
-  # Need `contents: write` to update the step metadata.
   contents: write
+  # "contents: write" = allowed to read AND modify files in this repo
+  # (needed to update the step counter and README)
 
+# ── JOBS ───────────────────────────────────────────────────────────
+# A "job" is a group of steps that run together on a computer.
+# This workflow has two jobs that run in sequence:
+#   1. get_current_step  → reads which step number we're on
+#   2. on_welcome        → does the actual work (if conditions are met)
 jobs:
-  # Get the current step to only run the main job when the learner is on the same step.
+
+  # ── JOB 1: Find out which step we're currently on ──────────────
   get_current_step:
     name: Check current step number
     runs-on: ubuntu-latest
+    # "runs-on: ubuntu-latest" = use a fresh Linux computer to run this job
+    # GitHub provides this computer for free — it starts blank every time
+
     steps:
+      # Step A: Download the repository files onto the Linux computer
       - name: Checkout
         uses: actions/checkout@v6
+        # "uses" means we're borrowing a pre-built tool from GitHub's library
+        # "actions/checkout" = a tool that downloads this repo's files
+
+      # Step B: Read the current step number from a text file
       - id: get_step
         run: |
           echo "current_step=$(cat ./.github/steps/-step.txt)" >> $GITHUB_OUTPUT
+        # .github/steps/-step.txt contains a single number like "0" or "1"
+        # We read it and save it as an output called "current_step"
+        # so the next job can use it
+
+    # Make the step number available to other jobs
     outputs:
       current_step: ${{ steps.get_step.outputs.current_step }}
 
+  # ── JOB 2: Do the actual welcome work ──────────────────────────
   on_welcome:
     name: On welcome
     needs: get_current_step
+    # "needs:" = wait for job 1 to finish before starting this job
 
-    # We will only run this action when:
-    # 1. This repository isn't the template repository.
-    # 2. The step is currently 0.
-    # Reference: https://docs.github.com/en/actions/learn-github-actions/contexts
-    # Reference: https://docs.github.com/en/actions/learn-github-actions/expressions
+    # Only run this job IF all these conditions are true:
     if: >-
       ${{ !github.event.repository.is_template
           && needs.get_current_step.outputs.current_step == 0 }}
+    # Condition 1: This repo is NOT the original template
+    #              (we only run for real learners, not the source repo)
+    # Condition 2: The step file says we're on Step 0
+    #              (if someone is already on step 2, don't run this)
 
-    # We'll run Ubuntu for performance instead of Mac or Windows.
     runs-on: ubuntu-latest
 
     steps:
-      # We'll need to check out the repository so that we can edit README.md.
+      # Step A: Download the repository files
       - name: Checkout
         uses: actions/checkout@v6
         with:
-          fetch-depth: 0 # Let's get all the branches.
+          fetch-depth: 0
+          # "fetch-depth: 0" = download the FULL history, not just the latest
+          # (needed so the update tool can see all branches)
 
-      # In README.md, switch step 0 for step 1.
+      # Step B: Swap the Step 0 content for Step 1 content in the README
       - name: Update to step 1
         uses: skills/action-update-step@v2
+        # This is a custom GitHub Skills tool that:
+        #   - Reads the step 0 template from .github/steps/1-create-a-branch.md
+        #   - Replaces the current README content with it
+        #   - Commits that change automatically
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          from_step: 0
-          to_step: 1
+          # GITHUB_TOKEN = a temporary password GitHub generates automatically
+          # It gives this workflow permission to push commits to the repo
+          from_step: 0   # Replace content for step 0...
+          to_step: 1     # ...with content for step 1
           branch_name: my-first-branch
+          # This tells the update tool which branch to prepare for next
+
